@@ -23,7 +23,9 @@ urlpatterns = [
 
     url(r'^cart/', include('cart.urls', namespace='cart')),
     url(r'^orders/', include('orders.urls', namespace='orders')),
+    url(r'^payment/', include('payment.urls', namespace='payment')),
     # 引入shop应用中的URL模式，指定一个命名空间为shop
+    url(r'^coupons/', include('coupons.urls', namespace='coupons')),
     url(r'^', include('shop.urls', namespace='shop')),
 
 ]

@@ -8,7 +8,8 @@ def product_list(request, category_slug=None):
     category = None
     categories = Category.objects.all()
     products = Product.objects.filter(available=True)
-    # 接收参数category_slug,当点击某一个种类时，就只显示这个种类的商品
+    # 接收参数category_slug,当点击某一个种类时，就只显示这个种类的商品,
+    # 这里的category_slug是指url(r'^(?P<category_slug>[-\w]+)/$', views.product_list, )里的<category_slug>
     if category_slug:
         # 获取与slug对应的种类
         category = get_object_or_404(Category, slug=category_slug)

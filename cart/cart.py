@@ -3,20 +3,24 @@
 from decimal import Decimal
 from django.conf import settings
 from shop.models import Product
+from coupons.models import Coupons
 
 
 class Cart(object):
 
     def __init__(self, request):
         """
-        Initialize the cart.
+        初始化一个购物车
         """
+        # 这是个初始化函数__init__（）,使用self.session来保存当前会话，是为了后面的方法可以使用它
         self.session = request.session
+        # 尝试从当前会话中获取购物车
         cart = self.session.get(settings.CART_SESSION_ID)
         if not cart:
-            # save an empty cart in the session
+            # 保存一个空的购物车到session中
             cart = self.session[settings.CART_SESSION_ID] = {}
         self.cart = cart
+        self.coupon_id = self.session.get('coupon_id')
 
     def __len__(self):
         """
@@ -75,3 +79,20 @@ class Cart(object):
 
     def get_total_price(self):
         return sum(Decimal(item['price']) * item['quantity'] for item in self.cart.values())
+
+    @property
+    def coupon(self):
+        if self.coupon_id:
+            return Coupons.objects.get(id=self.coupon_id)
+        return None
+
+    def get_discount(self):
+        if self.coupon:
+            return (self.coupon.discount / Decimal('100')) \
+                   * self.get_total_price()
+        return Decimal('0')
+
+    def get_total_price_after_discount(self):
+        return self.get_total_price() - self.get_discount()
+
+

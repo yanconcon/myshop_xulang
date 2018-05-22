@@ -16,6 +16,7 @@ class Category(models.Model):
         return self.name
 
     def get_absolute_url(self):
+        # 用slug来生成名为product_list_by_category的url里的<category_slug>
         return reverse('shop:product_list_by_category', args=[self.slug])
 
 

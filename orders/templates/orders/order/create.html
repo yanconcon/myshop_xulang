@@ -11,18 +11,24 @@
         <h3>你的订单</h3>
         <ul>
             {% for item in cart %}
-            <li>
-                {{ item.quantity }} x{{ item.product.name }}
-                <span>￥{{ item.total_price }}</span>
-            </li>
+                <li>
+                    {{ item.quantity }} x{{ item.product.name }}
+                    <span>￥{{ item.total_price }}</span>
+                </li>
             {% endfor %}
+            {% if cart.coupon %}
+                <li>
+                "{{ cart.coupon.code }}" ({{ cart.coupon.discount }}%off)
+                <span>- ${{ cart.get_discount|floatformat:"2" }}</span>
+                </li>
+            {% endif %}
         </ul>
-    <p>总价： ￥{{ cart.get_total_price }}</p>
+    <p>总价： ￥{{ cart.get_total_price_after_discount|floatformat:"2" }}</p>
     </div>
 
     <form action="." method="post" class="order-form">
         {{ form.as_p }}
-        <p><input type="submit" value="Place order"></p>
+        <p><input type="submit" value="提交订单"></p>
         {% csrf_token %}
     </form>
 {% endblock %}

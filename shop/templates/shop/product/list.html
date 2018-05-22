@@ -8,10 +8,12 @@
     <div id="sidebar">
         <h3>商品种类</h3>
         <ul>
+            <!--// 这里的class="selected",是指如果点击的是my我的商品，这个<li>模块会被设置成蓝色//-->
             <li {% if not category %}class="selected"{% endif %}>
-                <a href="{% url "shop:product_list" %}">所有商品</a>
+                <a href="{% url "shop:product_list" %}">my所有商品</a>
             </li>
         {% for c in categories %}
+            <!-- 如果点击了某一个种类，这个<li>会被设置成蓝色,且url也会跳到种类的slug下-->
             <li {% if category.slug == c.slug %}class="selected"{% endif %}>
                 <a href="{{ c.get_absolute_url }}">{{ c.name }}</a>
             </li>
@@ -19,8 +21,9 @@
         </ul>
     </div>
     <div id="main" class="product-list">
-        <h1>{% if category %}{{ category.name }}{% else %}所有商品{% endif %}</h1>
+        <h1>{% if category %}{{ category.name }}{% else %}所有商品2{% endif %}</h1>
     {% load thumbnail %}
+    <!--显示图片集，看情况来选择是显示所有图片，还是某种商品的图片-->
         {% for product in products %}
             <div class="item">
                 <a href="{{ product.get_absolute_url }}">
