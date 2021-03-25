@@ -24,7 +24,7 @@ pycparser==2.18
 pycrypto==2.6.1
 Pyphen==0.9.4
 pytz==2018.3
-PyYAML==3.12
+PyYAML==5.4
 requests==2.18.4
 shellescape==3.4.1
 six==1.11.0
